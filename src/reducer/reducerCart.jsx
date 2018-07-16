@@ -1,41 +1,63 @@
-import {
-    FETCH_CART,
-    FETCH_CART_SUCCESS,
-    FETCH_CART_FAILURE,
-    ADD_TO_CART,
-    ADD_TO_CART_SUCCESS,
-    ADD_TO_CART_FAILURE
-} from '../action/actionTypes';
+import { combineReducers } from 'redux'
+import { ADD_TO_CART, REMOVE_FROM_CART, CHECKOUT_REQUEST, CHECKOUT_SUCCESS, CHECKOUT_FAILURE } from '../action/actions'
 
 const initialState = {
-    isLoading: false,
-    cart: {items: []},
-    error: null
+  checkoutStatus: {
+    checkoutPending: false,
+    error: null,
+  },
+  quantityById: {},
 }
 
-export default (state = initialState, action) => {
-    switch(action.type) {
-        case FETCH_CART: 
-        case ADD_TO_CART:
-            return {
-                ...state,
-                isLoading: true
-            }
-        case FETCH_CART_SUCCESS:
-        case ADD_TO_CART_SUCCESS:
-            return {
-                ...state,
-                isLoading: false,
-                cart: action.cart
-            }
-        case FETCH_CART_FAILURE:
-        case ADD_TO_CART_FAILURE:
-            return {
-                ...state,
-                isLoading: false,
-                error: action.error
-            }
-        default:    
-            return state;
-    }
+function checkoutStatus(state = initialState.checkoutStatus, action) {
+  switch (action.type) {
+    case CHECKOUT_REQUEST:
+      return {
+        checkoutPending: true,
+        error: null,
+      }
+    case CHECKOUT_SUCCESS:
+      return initialState.checkoutStatus
+    case CHECKOUT_FAILURE:
+      return {
+        checkoutPending: false,
+        error: action.error,
+      }
+    default:
+      return state
+  }
+}
+
+function quantityById(state = initialState.quantityById, action) {
+  const { productId } = action
+  switch (action.type) {
+    case CHECKOUT_SUCCESS:
+      return initialState.quantityById
+    case ADD_TO_CART:
+      return {
+        ...state,
+        [productId]: (state[productId] || 0) + 1,
+      }
+    case REMOVE_FROM_CART:
+      const qty = (state[productId] || 0) - 1
+      const copy = { ...state }
+      if (qty > 0) copy[productId] = qty
+      else delete copy[productId]
+      return copy
+    default:
+      return state
+  }
+}
+
+export default combineReducers({
+  checkoutStatus,
+  quantityById,
+})
+
+export function getQuantity(state, productId) {
+  return state.quantityById[productId] || 0
+}
+
+export function getAddedIds(state) {
+  return Object.keys(state.quantityById)
 }

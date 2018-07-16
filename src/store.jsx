@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware, compose} from 'redux';
 import reducers from './reducer/reducers';
 import createSagaMiddleware from 'redux-saga';
-import sagas from './saga/sagas';
+import root from './saga/saga'
 
 
 export default (initialState) => {
@@ -15,6 +15,8 @@ export default (initialState) => {
         initialState,
         enchancers
     )
-    sagas.map(sagaMiddleware.run)
+    root.map(sagaMiddleware.run)
+    
     return store;
+    
 }

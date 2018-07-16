@@ -1,35 +1,63 @@
-import {
-    FETCH_PRODUCTS,
-    FETCH_PRODUCTS_FAILURE,
-    FETCH_PRODUCTS_SUCCESS
-} from '../action/actionTypes';
+import { combineReducers } from 'redux'
+import { RECEIVE_PRODUCTS, ADD_TO_CART, REMOVE_FROM_CART } from '../action/actions'
 
-const initialState = {
-    isLoading: false,
-    products: [],
-    error: null,
+function products(state, action) {
+  switch (action.type) {
+    case ADD_TO_CART:
+      return {
+        ...state,
+        inventory: state.inventory - 1,
+      }
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        inventory: state.inventory + 1,
+      }
+    default:
+      return state
+  }
 }
 
-export default (state = initialState, action) => {
-    switch(action.type) {
-        case FETCH_PRODUCTS:
-            return {
-                ...state,
-                isLoading: true
-            };
-        case FETCH_PRODUCTS_SUCCESS:
-            return {
-                ...state,
-                isLoading: false,
-                products: action.products
-            }
-        case FETCH_PRODUCTS_FAILURE:
-            return {
-                ...state,
-                isLoading: false,
-                error: action.error
-            }
-        default: 
-            return state;
-    }
+function byId(state = {}, action) {
+  switch (action.type) {
+    case RECEIVE_PRODUCTS:
+      return {
+        ...state,
+        ...action.products.reduce((obj, product) => {
+          obj[product.id] = product
+          return obj
+        }, {}),
+      }
+    default:
+      const { productId } = action
+      if (productId) {
+        return {
+          ...state,
+          [productId]: products(state[productId], action),
+        }
+      }
+      return state
+  }
+}
+
+function visibleIds(state = [], action) {
+  switch (action.type) {
+    case RECEIVE_PRODUCTS:
+      return action.products.map(product => product.id)
+    default:
+      return state
+  }
+}
+
+export default combineReducers({
+  byId,
+  visibleIds,
+})
+
+export function getProduct(state, id) {
+  return state.byId[id]
+}
+
+export function getVisibleProducts(state) {
+  return state.visibleIds.map(id => getProduct(state, id))
 }
