@@ -9,7 +9,7 @@ export default class CartItem extends Component {
 
     return (
         <CartProd>
-                <Product  price={price} quantity={quantity} title={title} action={<button onClick={onRemove}>{' X '}</button>} />
+                <Product  price={price} quantity={quantity} title={title} action={<Rem onClick={onRemove}>{' X '}</Rem>} />
         </CartProd>
       
     )
@@ -23,9 +23,20 @@ CartItem.propTypes = {
   onRemove: PropTypes.func.isRequired,
 }
 const CartProd = styled.div`
-display: flex;
-align-items: center;
-justify-content: flex-start;
-margin: 20px 0;
+  display: inline-block;
+  margin: 20px 0;
+
+`
+const Rem = styled.button`
+  cursor: pointer;
+  background: none;
+  border: 1px solid #DC143C;
+  border-radius: 6px;
+  padding: 5px;
+  color: #DC143C;
+  :hover {
+      background: #DC143C;
+      color: white
+  }
 
 `

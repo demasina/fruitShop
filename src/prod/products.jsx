@@ -27,6 +27,7 @@ export default [
         id: 4,
         picture: "http://www.pngmart.com/files/3/Papaya-PNG-File.png",
         title: "papaya",
+        disc: "1+1=3",
         price: 300,
         inventory: 15,
         discount: 300,

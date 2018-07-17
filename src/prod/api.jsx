@@ -2,7 +2,7 @@
 import _products from './products'
 
 const TIMEOUT = 100
-const MAX_CHECKOUT = 2 
+const MAX_CHECKOUT = 60 
 
 export const api = {
   getProducts() {

@@ -15,10 +15,43 @@ export function isCheckoutPending(state) {
   return state.cart.checkoutStatus.checkoutPending
 }
 
+let b = 0;
+let count = 0;
+let d = [];
+let f = 0;
 export function getTotal(state) {
-  return getAddedIds(state.cart)
-    .reduce((total, id) => total + (getProduct(state.products, id).price * getQuantity(state.cart, id)) - getProduct(state.products, id).discount, 0)
-    .toFixed(2)
+  let a = getAddedIds(state.cart).reduce(function(total, id) {
+    if((state.cart.quantityById[4] % 3) === 0 && state.cart.quantityById[4] > b) {
+      b = state.cart.quantityById[4];
+      count++;
+      total = total + getProduct(state.products, id).price * getQuantity(state.cart, id) - getProduct(state.products, id).discount * count;
+
+        if(d.length == 0) {
+          d.push(b);
+        } else {
+          if(b !== d[d.length - 1]) {
+            d.push(b);
+          } 
+        }
+    } else {
+      for(var i = 0; i < d.length; i++) {
+        if(state.cart.quantityById[4] == d[i] - 1 && state.cart.quantityById[4] < f) {
+          count--;
+          d.pop();
+          if(count == 0) {
+            b = 0;
+            d.splice(0,d.length);
+          }
+
+        }
+      }
+      total = total + getProduct(state.products, id).price * getQuantity(state.cart, id) - getProduct(state.products, id).discount * count;
+    }
+    return total;
+  }, 0).toFixed(2);
+
+  f = state.cart.quantityById[4];
+  return a;
 }
 
 export function getCartProducts(state) {

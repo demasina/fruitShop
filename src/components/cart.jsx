@@ -3,7 +3,9 @@ import CartItem from './cartItem';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { checkout, removeFromCart } from '../action/actions'
-import { getTotal, getCartProducts, getCheckoutError, isCheckoutPending } from '../reducer/reducers'
+import { getTotal, getCartProducts, getCheckoutError, isCheckoutPending } from '../reducer/reducers';
+
+import styled from 'styled-components';
 
 class Cart extends Component {
   render() {
@@ -27,15 +29,15 @@ class Cart extends Component {
     )
 
     return (
-      <div>
+      <CartWrapper>
         <h3>Your Cart</h3>
         <div>{nodes}</div>
         <p>Total: &#36;{total}</p>
-        <button onClick={checkout} disabled={checkoutAllowed ? '' : 'disabled'}>
+        <Check onClick={checkout} disabled={checkoutAllowed ? '' : 'disabled'}>
           Checkout
-        </button>
+        </Check>
         <div style={{ color: 'red' }}>{error}</div>
-      </div>
+      </CartWrapper>
     )
   }
 }
@@ -49,13 +51,33 @@ Cart.propTypes = {
       quantity: PropTypes.number.isRequired,
     }),
   ).isRequired,
-  total: PropTypes.string,
   error: PropTypes.string,
   checkoutPending: PropTypes.bool,
 
   checkout: PropTypes.func.isRequired,
   removeFromCart: PropTypes.func.isRequired,
 }
+
+const Check = styled.button`
+  cursor: pointer;
+  background: none;
+  border: 1px solid #DC143C;
+  border-radius: 6px;
+  padding: 5px;
+  color: #DC143C;
+  :hover {
+      background: #DC143C;
+      color: white
+  }
+
+`
+const CartWrapper = styled.div`
+  width: auto;
+  border: 1px solid #DC143C;
+  border-radius: 6px;
+  padding: 5px;
+  color: #DC143C;
+`
 
 export default connect(
   state => ({

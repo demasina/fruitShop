@@ -14,7 +14,7 @@ export default class ProductItem extends Component {
 
     return (
       <div>
-        <Product picture={product.picture} title={product.title} price={product.price} action={addToCartAction} />
+        <Product disc={product.disc} picture={product.picture} title={product.title} price={product.price} action={addToCartAction} />
       </div>
     )
   }
@@ -28,11 +28,11 @@ ProductItem.propTypes = {
 }
 
 const ActionButton = styled.button`
+    cursor: pointer;
     background: none;
     border: 1px solid #00BFFF;
     border-radius: 6px;
     padding: 10px;
-    margin-bottom: 15px;
     color: #00BFFF;
     :hover {
         background: #00BFFF;
