@@ -21,10 +21,11 @@ export function receiveProducts(products) {
   }
 }
 
-export function addToCart(productId) {
+export function addToCart(productId, discount) {
   return {
     type: ADD_TO_CART,
     productId,
+    discount
   }
 }
 

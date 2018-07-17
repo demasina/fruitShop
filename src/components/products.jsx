@@ -15,7 +15,7 @@ class Products extends Component {
         <div>
           <Fruits>
           {products.map(product => (
-            <ProductItem key={product.id} product={product} onAddToCartClicked={() => addToCart(product.id)} />
+            <ProductItem key={product.id} product={product} onAddToCartClicked={() => addToCart(product.id, product.discount)} />
           ))}
           </Fruits>
         </div>

@@ -17,7 +17,7 @@ export function isCheckoutPending(state) {
 
 export function getTotal(state) {
   return getAddedIds(state.cart)
-    .reduce((total, id) => total + getProduct(state.products, id).price * getQuantity(state.cart, id), 0)
+    .reduce((total, id) => total + (getProduct(state.products, id).price * getQuantity(state.cart, id)) - getProduct(state.products, id).discount, 0)
     .toFixed(2)
 }
 

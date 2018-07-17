@@ -55,6 +55,7 @@ export default combineReducers({
 })
 
 export function getProduct(state, id) {
+  
   return state.byId[id]
 }
 
