@@ -49,12 +49,30 @@ function quantityById(state = initialState.quantityById, action) {
   }
 }
 
+//discountNum calculate price for product with discount
+
+export function discountNum(qty, price) {
+  if(qty > 2 ) {
+    return price * (Math.floor(qty % 3) + (Math.floor(qty / 3) * 2))
+  } 
+  return qty * price
+}
+
+//getDiscount calculate price for products
+
+export function getDiscount(discount, qty, price) {
+  if (discount) {
+      return discountNum(qty, price);
+  }
+  return qty * price;
+}
+
 export default combineReducers({
   checkoutStatus,
   quantityById,
 })
 
-export function getQuantity(state, productId, discount) {
+export function getQuantity(state, productId) {
   return state.quantityById[productId] || 0
 }
 

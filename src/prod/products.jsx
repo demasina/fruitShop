@@ -5,7 +5,7 @@ export default [
         title: "bananas",
         price: 10,
         inventory: 15,
-        discount: 0,
+        discount: false,
     },
     {
         id: 2,
@@ -13,7 +13,7 @@ export default [
         title: "mandarins",
         price: 16,
         inventory: 15,
-        discount: 0,
+        discount: false,
     },
     {
         id: 3,
@@ -21,7 +21,7 @@ export default [
         title: "apples",
         price: 20,
         inventory: 15,
-        discount: 0,
+        discount: false,
     },
     {
         id: 4,
@@ -30,6 +30,6 @@ export default [
         disc: "1+1=3",
         price: 300,
         inventory: 15,
-        discount: 300,
+        discount: true,
     }
 ]
